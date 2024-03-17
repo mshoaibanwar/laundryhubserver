@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 
 const shopSchema = new Schema({
     uid: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide User ID!"],
         unique: false,
+        ref: 'User',
     },
     title: {
         type: String,
@@ -36,8 +37,32 @@ const shopSchema = new Schema({
         default: [
             {"services": [{ serv: "Wash", pri: 40 }, { serv: "Dry Clean", pri: 80 }, { serv: "Iron", pri: 20 }], "title": "Kurta"}, 
             {"services": [{ serv: "Wash", pri: 30 }, { serv: "Dry Clean", pri: 60 }, { serv: "Iron", pri: 10 }], "title": "Shalwar"}, 
-            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }], "title": "Shalwar Kameez"}
-        ]
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 } ], "title": "Shalwar Kameez"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Shawl"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Sweater"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Hoodie"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Coat"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Track Suit"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Jacket"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Tie"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Trousers"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Jeans"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Pants"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Shorts"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Cap"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Scarf"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Gloves"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Socks"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Shirt"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Under Garments"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Bed Sheet"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Pillow Cover"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Curtains"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Single Blanket"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Towel"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Double Blanket"},
+            {"services": [{ serv: "Wash", pri: 70 }, { serv: "Dry Clean", pri: 180 }, { serv: "Iron", pri: 10 }], "title": "Metress Cover"},
+        ] 
     },
     img: {
         type: String,
@@ -78,6 +103,18 @@ const shopSchema = new Schema({
             { day: 'Saturday', status: 'on', time: { start: '8:00 AM', end: '10:00 PM' } },
             { day: 'Sunday', status: 'on', time: { start: '8:00 AM', end: '10:00 PM' } },
         ]
+    },
+    minDelTime: {
+        type: Number,
+        required: [false, "Please provide Minimum Delivery Time!"],
+        unique: false,
+        default: 2
+    },
+    minOrderPrice: {
+        type: Number,
+        required: [false, "Please provide Minimum Order Price!"],
+        unique: false,
+        default: 100
     },
 }, {
     timestamps: true,

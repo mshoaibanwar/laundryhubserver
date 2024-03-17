@@ -25,9 +25,10 @@ const addressSchema = new Schema({
     },
     cords: mongoose.Schema.Types.Mixed,
     uid: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide User ID!"],
         unique: false,
+        ref: 'User',
     },
 }, {
     timestamps: true,

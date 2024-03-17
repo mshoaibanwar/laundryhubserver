@@ -12,6 +12,14 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(404).json('Users not found'));
 });
 
+router.route('/getUser/:id').get((req, res) => {
+    User.findById(req.params.id)
+        .then((user) => {
+            res.json(user);
+        })
+        .catch(err => res.status(404).json('User not found'));
+});
+
 router.route('/count/').get((req, res) => {
     User.find()
         .then(() => {
@@ -89,6 +97,20 @@ router.route('/changepass').post(async (req, res) => {
 
 });
 
+router.post('/verifyToken', async (req, res) => {
+    try {
+        const token = req.body.token;
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findOne({ _id: decoded._id });
+        if (!user)
+            return res.status(401).send({ message: 'Please Login to Continue!' });
+
+        res.status(200).send({ userData: user, message: 'Logged in Successfully.' });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
+
 router.route('/login').post((req, res) => {
     User.findOne({ email: req.body.email })
         .then(async (user) => {
@@ -117,9 +139,17 @@ router.route('/login').post((req, res) => {
 });
 
 router.route('/update').post((req, res) => {
-    User.findOneAndUpdate({ email: req.body.email }, { name: req.body.name, phone: req.body.phone })
+    User.findOneAndUpdate({ email: req.body.email }, { name: req.body.name, phone: req.body.phone, profile: req.body.profile })
         .then((user) => {
             res.json("Accout Details Updated");
+        })
+        .catch(err => res.status(404).send('User not found!'));
+});
+
+router.route('/update/profile').post((req, res) => {
+    User.findOneAndUpdate({ email: req.body.email }, { profile: req.body.profile })
+        .then((user) => {
+            res.json("Profile Image Updated");
         })
         .catch(err => res.status(404).send('User not found!'));
 });
@@ -127,7 +157,6 @@ router.route('/update').post((req, res) => {
 router.route('/updateToken').post((req, res) => {
     User.findOneAndUpdate({ email: req.body.email }, { token: req.body.token })
         .then((user) => {
-            console.log(req.body.email);
             res.json("Token Updated");
         })
         .catch(err => res.status(404).send('User not found!'));

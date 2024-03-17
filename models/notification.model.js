@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
   userID: {
-    type: String,
+    type:  mongoose.Schema.Types.ObjectId,
     required: [true, "Please provide user id!"],
     unique: false,
+    ref: 'User',
   },
   title: {
     type: String,

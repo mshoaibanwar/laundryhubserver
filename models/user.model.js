@@ -23,6 +23,12 @@ const userSchema = new Schema({
         trim: true,
         minlength: 10
     },
+    profile: {
+        type: String,
+        required: false,
+        unique: false,
+        default: ""
+    },
     pswrd: {
         type: String,
         required: [true, "Please provide a password!"],

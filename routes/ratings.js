@@ -19,8 +19,33 @@ router.route('/count/').get((req, res) => {
         .catch(err => res.status(404).send("Error: " + err));
 });
 
+router.route('/shop/countAvg/:uid').get(async(req, res) => {
+        let counts = {};
+        try {
+                const ratingCount = await Rating.countDocuments({ shopid: req.params.uid });
+                counts.ratings = ratingCount;
+                const ratings = await Rating.find({ shopid: req.params.id });
+                if (ratings.length === 0) {
+                        counts.avg = 0;
+                } else {
+                        const totalRating = ratings.reduce((sum, rating) => sum + rating.rating, 0);
+                        const averageRating = totalRating / ratings.length;
+                        counts.avg = averageRating;
+                }
+                res.json(counts);
+        } catch (error) {
+                console.error('Error retrieving ratings:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+
+router.route('/user/count/:uid').get((req, res) => {
+        Rating.countDocuments({ shopid: req.params.uid})
+        .then((count)=> res.json({"Count": count}))
+        .catch(err => res.status(404).send("Count Error: " + err));
+    });
+
 router.route('/shop/:id').get((req, res) => {
-    // let obid = `ObjectId('${req.params.id}')`;
     Rating.find({ 'shopid': req.params.id })
         .then((ratings) => {
                 res.json(ratings);
@@ -28,8 +53,32 @@ router.route('/shop/:id').get((req, res) => {
         .catch(err => res.status(404).send(`Ratings with shopid: ${req.params.id} not found`));
 });
 
+router.route('/user/avg/:id').get((req, res) => {
+        Rating.find({ 'shopid': req.params.id })
+          .then((ratings) => {
+            if (ratings.length === 0) {
+              // No ratings found for the shop
+              res.json(0);
+            } else {
+              // Calculate average rating
+              const totalRating = ratings.reduce((sum, rating) => sum + rating.rating, 0);
+              const averageRating = totalRating / ratings.length;
+      
+              res.json(averageRating);
+            }
+          })
+          .catch(err => res.status(500).send(`Error fetching ratings: ${err.message}`));
+      });
+
+router.route('/ride/:id').get((req, res) => {
+        Rating.find({ 'orderid': req.params.id })
+            .then((ratings) => {
+                    res.json(ratings);
+            })
+            .catch(err => res.status(404).send(`Ratings with rideid: ${req.params.id} not found`));
+    });
+
 router.route('/order/:sid/:oid').get((req, res) => {
-        // let obid = `ObjectId('${req.params.id}')`;
         Rating.find({ 'shopid': req.params.sid, 'orderid': req.params.oid })
             .then((ratings) => {
                     res.json(ratings);

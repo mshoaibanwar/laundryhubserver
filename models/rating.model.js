@@ -18,26 +18,29 @@ const ratigSchema = new Schema({
         required: [true, "Please provide user name!"],
         unique: false,
     },
-    uid: {
-        type: String,
-        required: [true, "Please provide user id!"],
-        unique: false,
-    },
-    shopid: {
-        type: String,
-        required: [true, "Please provide shop id!"],
-        unique: false,
-    },
     feedback: {
         type: String,
         required: false,
         unique: false,
         default: "",
     },
+    uid: {
+        type:  mongoose.Schema.Types.ObjectId,
+        required: [true, "Please provide user id!"],
+        unique: false,
+        ref: 'User',
+    },
+    shopid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, "Please provide shop id!"],
+        unique: false,
+        ref: 'Shop',
+    },
     orderid: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide order id!"],
         unique: [true, "Order id already exists!"],
+        ref: 'Order',
     },
     services: mongoose.Schema.Types.Mixed,
 }, {

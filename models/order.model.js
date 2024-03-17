@@ -4,14 +4,16 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
     uid: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide user id!"],
         unique: false,
+        ref: 'User',
     },
     shopid: {
-        type: String,
+        type:  mongoose.Schema.Types.ObjectId,
         required: [true, "Please provide Shop id!"],
         unique: false,
+        ref: 'Shop',
     },
     items: Schema.Types.Mixed,
     address: Schema.Types.Mixed,
@@ -42,7 +44,13 @@ const orderSchema = new Schema({
         required: false,
         default: "Pending",
         unique: false,
-    }
+    },
+    ride: {
+        type: Boolean,
+        required: false,
+        default: true,
+        unique: false,
+    },
 }, {
     timestamps: true,
 });
