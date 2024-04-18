@@ -38,8 +38,8 @@ connection.once("open", () => {
 });
 
 const usersRouter = require("./routes/users");
-const shopsRouter = require("../Backend/routes/shops");
-const ridersRouter = require("../Backend/routes/riders");
+const shopsRouter = require("./routes/shops");
+const ridersRouter = require("./routes/riders");
 const ridesRouter = require("./routes/rides");
 const ratingsRouter = require("./routes/ratings");
 const ordersRouter = require("./routes/orders");
